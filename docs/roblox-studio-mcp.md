@@ -24,14 +24,14 @@ instantly, remove the old file and install the new build under a fresh name with
 8-character hexadecimal suffix...
 
 ```sh
-rm -f <plugins-folder>/UILabs_*.rbxm
+rm -f <plugins-folder>/UILabs.rbxm <plugins-folder>/UILabs_*.rbxm
 cp UILabs.rbxm "<plugins-folder>/UILabs_$(openssl rand -hex 4).rbxm"
 ```
 
 Since the new file has a different name, Studio unloads the old plugin and loads the new
 one right away, with no need to sleep between the removal and the copy. This works for any
-plugin (Rojo, UI Labs, etc.). Always remove the old files with the wildcard first, so
-stale copies don't pile up and load side by side.
+plugin (Rojo, UI Labs, etc.). Always remove both the unsuffixed file and any suffixed
+copies first, so stale copies don't pile up and load side by side.
 
 ## Capturing Screenshots
 
