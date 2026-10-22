@@ -1,21 +1,28 @@
-# Roblox Open Cloud — Creating and Publishing Places
+# Roblox Open Cloud » Creating & Publishing Places
 
-## Creating a New Universe + Place
+This reference covers creating universes and places, publishing place files, and running
+Luau in published places through the Roblox web APIs.
 
-There is no Open Cloud (API key) endpoint for creating universes. Use the
-undocumented legacy endpoint with `.ROBLOSECURITY` cookie auth:
+## Creating a New Universe & Place
 
-### Step 1: Get a CSRF token
+There is no Open Cloud (API key) endpoint for creating universes. Use the undocumented
+legacy endpoint with `.ROBLOSECURITY` cookie auth instead.
 
-```bash
+### Step 1 » Get a CSRF Token
+
+Fetch a CSRF token by sending a request to the logout endpoint...
+
+```sh
 CSRF=$(curl -s -I -X POST 'https://auth.roblox.com/v2/logout' \
   --header "Cookie: .ROBLOSECURITY=$ROBLOX_COOKIE" \
-  | grep -i 'x-csrf-token:' | sed 's/.*: //' | tr -d '\r\n')
+  | rg -i 'x-csrf-token:' | sed 's/.*: //' | tr -d '\r\n')
 ```
 
-### Step 2: Create the universe
+### Step 2 » Create the Universe
 
-```bash
+Pass the token along with the cookie to create the universe...
+
+```sh
 curl -s -X POST 'https://apis.roblox.com/universes/v1/universes/create' \
   --header "Cookie: .ROBLOSECURITY=$ROBLOX_COOKIE" \
   --header "X-CSRF-TOKEN: $CSRF" \
@@ -23,13 +30,14 @@ curl -s -X POST 'https://apis.roblox.com/universes/v1/universes/create' \
   --data '{ "templatePlaceId": 95206881 }'
 ```
 
-Returns: `{ "universeId": 123, "rootPlaceId": 456 }`
+The response looks like `{ "universeId": 123, "rootPlaceId": 456 }`. Template `95206881`
+is the standard baseplate.
 
-Template `95206881` is the standard baseplate.
+### Step 3 » Create Additional Places (Optional)
 
-### Step 3: Create additional places (optional)
+Add more places to the universe with the same token and cookie...
 
-```bash
+```sh
 curl -s -X POST \
   "https://apis.roblox.com/universes/v1/user/universes/$UNIVERSE_ID/places" \
   --header "Cookie: .ROBLOSECURITY=$ROBLOX_COOKIE" \
@@ -38,15 +46,17 @@ curl -s -X POST \
   --data '{ "templatePlaceId": 95206881 }'
 ```
 
-Returns: `{ "placeId": 789 }`
+The response looks like `{ "placeId": 789 }`.
 
 ## Publishing a Place File
 
-Use the Open Cloud API with an API key. The key needs `universe-places:write`
-scoped to the target universe.
+Use the Open Cloud API with an API key. The key needs `universe-places:write` scoped to
+the target universe.
 
-**Important:** `curl --data-binary` does not work reliably for publishing place
-files. Use Lune's `net.request` instead:
+**Upload Caveat**
+
+`curl --data-binary` does **not** work reliably for publishing place files. Use Lune's
+`net.request` instead...
 
 ```luau
 local fs = require("@lune/fs")
@@ -73,8 +83,7 @@ Use `versionType=Published` to publish live, or `versionType=Saved` for a draft.
 
 ## Running Luau in a Published Place
 
-Use the Luau Execution API to run scripts in a published place's server
-environment:
+Use the Luau Execution API to run scripts in a published place's server environment...
 
 ```luau
 -- Create execution task
@@ -107,23 +116,25 @@ local pollData = serde.decode("json", pollResponse.body)
 ```
 
 The script runs in a real Roblox server with access to `game`, `workspace`,
-`Instance.new`, etc. Scripts can return tables which are serialized as JSON
-in the results.
+`Instance.new`, etc. Scripts can return tables, which are serialized as JSON in the
+results.
 
 ## API Key Scopes
 
-| Scope | Required for |
-|-------|-------------|
-| `universe-places:write` | Publishing place files |
-| `universe.place.luau-execution-session:write` | Running Luau scripts |
-| `universe:read` | Reading universe details |
+Each API key needs the scopes for the operations it performs...
 
-Keys are created at https://create.roblox.com/dashboard/credentials and must
-be scoped to specific universes.
+| Scope                                         | Required For             |
+| --------------------------------------------- | ------------------------ |
+| `universe-places:write`                       | Publishing place files   |
+| `universe.place.luau-execution-session:write` | Running Luau scripts     |
+| `universe:read`                               | Reading universe details |
+
+Keys are created at
+[create.roblox.com/dashboard/credentials](https://create.roblox.com/dashboard/credentials)
+and must be scoped to specific universes.
 
 ## Key Locations
 
-API keys and cookies are stored in environment files. Check `~/.keys/.env`
-for `ROBLOX_OPEN_CLOUD_API_KEY` and `ROBLOX_COOKIE`. Individual repos may
-have their own `.env` with project-scoped keys (e.g., `ROBLOX_E2E_API_KEY`
-in bloxdrive).
+API keys and cookies are stored in `.env` files, never in code. Look for
+`ROBLOX_OPEN_CLOUD_API_KEY` and `ROBLOX_COOKIE` in the project's `.env`. Individual repos
+may also define their own project-scoped keys (e.g., `ROBLOX_E2E_API_KEY`).

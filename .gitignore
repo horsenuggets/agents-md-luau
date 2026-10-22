@@ -1,7 +1,12 @@
-# Editor and environment
+# Editor & environment
 .DS_Store
-.local
-.vscode
+.local/
+.vscode/
+
+# Worktrees
+/.worktrees/
+/.wt/
 
 # Project
+/CONTEXT.md
 /TODO.md

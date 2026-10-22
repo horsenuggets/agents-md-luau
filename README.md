@@ -1,34 +1,13 @@
-# claude-md-luau
+# agents-md-luau
 
-Luau-specific Claude Code guidelines for Roblox and Lune projects.
+Luau-specific guidelines for agents working on Luau and Roblox projects.
 
-## Overview
+The `AGENTS.md` file covers Luau terminology, code style, naming conventions, module
+structure, testing, and static analysis with `luau-lsp`. It isn't loaded automatically, so
+agents read it whenever a task involves Luau code or a Roblox project.
 
-This repository extends [claude-md](https://github.com/horsenuggets/claude-md) with
-Luau-specific coding standards, including:
+## Reference Docs
 
-- **Formatting** - stylua, string interpolation, quoting conventions
-- **File Headers** - Standard Luau file header format
-- **Naming Conventions** - PascalCase modules, camelCase functions, class patterns
-- **Moonwave Documentation** - Doc comment standards
-- **Module Structure** - @self usage and init.luau patterns
-- **Testing** - TestEZ conventions
-- **Tooling** - Lune, Rokit, Wally configuration
-
-## Usage
-
-This repository is designed to be used as a submodule alongside claude-md:
-
-```bash
-git submodule add https://github.com/horsenuggets/claude-md-luau.git Submodules/claude-md-luau
-```
-
-## Slash Commands
-
-| Command           | Description                  |
-| ----------------- | ---------------------------- |
-| `/template [cmd]` | Manage luau-package-template |
-
-## License
-
-MIT
+The `docs/` folder holds reference data for Roblox and Luau development. Whenever you add,
+remove, rename, or change the purpose of a file in `docs/`, update the Reference Docs
+section in `AGENTS.md` to match, since that list is how agents find these files.
