@@ -29,6 +29,19 @@ verify that all changes adhere to these rules.
 - When any key in a table literal requires bracket-quote syntax (e.g., `["or"]` for Luau
   keywords), use `["key"]` syntax for **all** keys in that table for consistency.
 
+### Declarations
+
+Declare every binding with `const` unless it's reassigned later, and only then use
+`local`. This includes functions (`const function helper()`), requires, constants, and
+module tables. `const` locks the binding, not the value, so tables declared with `const`
+can still be changed. Bindings declared without a value (e.g., `local result`) also need
+`local`, since `const` requires an initial value.
+
+`const` needs Luau 0.711 or newer, which means Lune `0.11.1-horse.16.0` or newer and
+StyLua `2.6.0` or newer. Forks of upstream projects keep `local` in upstream code, since
+rewriting it would make every upstream sync conflict, and only use `const` in files the
+fork added.
+
 ### Requires
 
 Always use require-by-string (e.g., `require("@packages/Fusion")`,
@@ -61,8 +74,8 @@ for package consumers and does not need a header.
 
 ### Ordering
 
-- Place constants (e.g., `local THIS_IS_A_CONSTANT`) above the module definition (e.g.,
-  `local MyModule = {}`).
+- Place constants (e.g., `const THIS_IS_A_CONSTANT`) above the module definition (e.g.,
+  `const MyModule = {}`).
 
 ### Runtime Typechecking
 
@@ -108,17 +121,29 @@ for package consumers and does not need a header.
 
 ### Executable Files
 
-For executable Lune scripts, declare a module with the file name in PascalCase, add an
-`.exec()` function, and call it at the bottom.
+Every executable Lune script ends in `.exec.luau`. Declare a module with the file name in
+PascalCase, add an `.exec()` function, and call it at the bottom. Helper modules that
+scripts require (e.g., `Scripts/Helpers/`) are ordinary modules without the suffix.
 
 Executable Lune scripts must have the executable bit set and start with a shebang line
-(`#!/usr/bin/env -S lune run`). Always run them directly (e.g., `./Scripts/RunTests.luau`)
-instead of using `lune run`.
+(`#!/usr/bin/env -S lune run`). Always run them directly (e.g.,
+`./Scripts/RunTests.exec.luau`) instead of using `lune run`. The file header names the
+script with its sub-extension (e.g., `RunTests.exec`).
 
 ```luau
 #!/usr/bin/env -S lune run
 
-local MyExecutableScript = {}
+--[[
+
+MyExecutableScript.exec
+
+Describes what the script does.
+
+[Usage] ./Scripts/MyExecutableScript.exec.luau
+
+--]]
+
+const MyExecutableScript = {}
 
 function MyExecutableScript.exec()
     -- implementation
@@ -129,9 +154,9 @@ MyExecutableScript.exec()
 
 ### Windows Setup
 
-On Windows, there is no shebang support. To make `./Scripts/Foo.luau` work in PowerShell,
-register a file association for `.luau` files by running this once in an elevated
-PowerShell session...
+On Windows, there is no shebang support. To make `./Scripts/Foo.exec.luau` work in
+PowerShell, register a file association for `.luau` files by running this once in an
+elevated PowerShell session...
 
 ```powershell
 cmd /c 'assoc .luau=LuauScript'
@@ -139,8 +164,8 @@ cmd /c 'ftype LuauScript=lune run "%1" %*'
 ```
 
 This tells Windows to run `.luau` files through `lune run`, which is equivalent to what
-the shebang does on macOS and Linux. After this, `./Scripts/Foo.luau` works in PowerShell
-the same way it does in zsh or bash.
+the shebang does on macOS and Linux. After this, `./Scripts/Foo.exec.luau` works in
+PowerShell the same way it does in zsh or bash.
 
 ### Modules
 
@@ -196,7 +221,7 @@ export type Config = {
     Creator: CreatorConfig,
 }
 
-local state = {
+const state = {
     CurrentPhase = "lobby",
     RoundNumber = 0,
 }
@@ -239,8 +264,8 @@ the `init.luau`, allowing you to require sibling files...
 
 ```luau
 -- Inside MyModule/init.luau
-local Helper = require("@self/Helper") -- MyModule/Helper.luau
-local Utils = require("@self/Utils") -- MyModule/Utils/init.luau
+const Helper = require("@self/Helper") -- MyModule/Helper.luau
+const Utils = require("@self/Utils") -- MyModule/Utils/init.luau
 ```
 
 This is equivalent to `script.Helper` and `script.Utils` in Roblox. For files that are not
@@ -275,7 +300,7 @@ and especially before pushing. Treat it like running tests, and do not wait unti
 discover type errors.
 
 Most of our projects have a script that runs linting or static analysis for you. It's
-often named something like `Scripts/Lint.luau`, but the name varies, so look through
+often named something like `Scripts/Lint.exec.luau`, but the name varies, so look through
 `Scripts/` for it. If a project has one, use it. Otherwise, run `luau-lsp analyze`
 directly with the appropriate platform flag. The commands below also show how to call the
 binary when writing one of these scripts in the first place.
