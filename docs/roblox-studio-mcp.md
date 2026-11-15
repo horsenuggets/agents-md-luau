@@ -24,8 +24,8 @@ instantly, remove the old file and install the new build under a fresh name with
 8-character hexadecimal suffix...
 
 ```sh
-rm -f <plugins-folder>/UILabs.rbxm <plugins-folder>/UILabs_*.rbxm
-cp UILabs.rbxm "<plugins-folder>/UILabs_$(openssl rand -hex 4).rbxm"
+rm -f <plugins-folder>/MyPlugin.rbxm <plugins-folder>/MyPlugin_*.rbxm
+cp MyPlugin.rbxm "<plugins-folder>/MyPlugin_$(openssl rand -hex 4).rbxm"
 ```
 
 Since the new file has a different name, Studio unloads the old plugin and loads the new
