@@ -4,11 +4,8 @@ When working on Roblox projects, you can interact with a running Roblox Studio i
 via the RobloxStudio MCP server. This is useful for visually verifying UI changes,
 inspecting the game tree, reading scripts, and more.
 
-For our forks of Studio plugins with programmatic APIs, see these docs...
-
-- [`rojo-fork.md`](rojo-fork.md) → Connecting and syncing Rojo from `execute_luau`.
-- [`ui-labs-fork.md`](ui-labs-fork.md) → Mounting, rendering, and screenshotting UI Labs
-  stories.
+For programmatic Rojo plugin control, see [`rojo-fork.md`](rojo-fork.md), which covers
+connecting and syncing Rojo from `execute_luau`.
 
 ## Plugins Folder
 
