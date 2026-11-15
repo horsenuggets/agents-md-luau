@@ -4,11 +4,8 @@ When working on Roblox projects, you can interact with a running Roblox Studio i
 via the RobloxStudio MCP server. This is useful for visually verifying UI changes,
 inspecting the game tree, reading scripts, and more.
 
-For our forks of Studio plugins with programmatic APIs, see these docs...
-
-- [`rojo-fork.md`](rojo-fork.md) → Connecting and syncing Rojo from `execute_luau`.
-- [`ui-labs-fork.md`](ui-labs-fork.md) → Mounting, rendering, and screenshotting UI Labs
-  stories.
+For programmatic Rojo plugin control, see [`rojo-fork.md`](rojo-fork.md), which covers
+connecting and syncing Rojo from `execute_luau`.
 
 ## Plugins Folder
 
@@ -24,8 +21,8 @@ instantly, remove the old file and install the new build under a fresh name with
 8-character hexadecimal suffix...
 
 ```sh
-rm -f <plugins-folder>/UILabs.rbxm <plugins-folder>/UILabs_*.rbxm
-cp UILabs.rbxm "<plugins-folder>/UILabs_$(openssl rand -hex 4).rbxm"
+rm -f <plugins-folder>/MyPlugin.rbxm <plugins-folder>/MyPlugin_*.rbxm
+cp MyPlugin.rbxm "<plugins-folder>/MyPlugin_$(openssl rand -hex 4).rbxm"
 ```
 
 Since the new file has a different name, Studio unloads the old plugin and loads the new

@@ -13,10 +13,9 @@ Here's the full API...
 ```luau
 -- Connect and auto-accept in one call (recommended)
 local result = shared.Rojo.connectAndAccept()
--- Optional: specify host, port, timeout
+-- Optional -> specify host, port, timeout
 local result = shared.Rojo.connectAndAccept("localhost", "34872", 10)
--- Returns: { success: bool, projectName?: string, address?: string,
---            error?: string }
+-- Returns -> { success: bool, projectName?: string, address?: string, error?: string }
 
 -- Connect without auto-accept (will pause at Confirming state)
 shared.Rojo.connect("localhost", "34872")
@@ -30,17 +29,16 @@ shared.Rojo.disconnect()
 
 -- Check connection status
 local status = shared.Rojo.getStatus()
--- Returns: { status: string, projectName?: string, address?: string,
---            error?: string }
--- Status values: "NotConnected", "Connecting", "Confirming",
---                "Connected", "Error", "Unloaded"
+-- Returns -> { status: string, projectName?: string, address?: string, error?: string }
+-- Status values -> "NotConnected", "Connecting", "Confirming", "Connected", "Error"
+-- "Unloaded"
 
 -- Get current host and port
 local addr = shared.Rojo.getAddress()
--- Returns: { host: string, port: string }
+-- Returns -> { host: string, port: string }
 
--- Clear known projects cache (forces confirmation dialog to
--- appear even with "Initial" confirmation behavior)
+-- Clear known projects cache (forces confirmation dialog to appear even with "Initial"
+-- confirmation behavior)
 shared.Rojo.clearKnownProjects()
 ```
 
@@ -50,7 +48,7 @@ when the plugin loads and cleans up on unload.
 ## HTTP Requirement
 
 Rojo projects that need the shared API must have HTTP enabled. Add this to the project
-JSON...
+JSON or to the `HttpService` properties however the project is set up...
 
 ```json
 "HttpService": {
