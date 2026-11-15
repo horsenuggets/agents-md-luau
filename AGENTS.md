@@ -55,9 +55,11 @@ Almost every Luau file should start with this header...
 ```luau
 --[[
 
-<File name without .luau extension>
+FileNameWithoutLuauExtension
 
-<Description in a few sentences, wrapping by word at column 90>
+Description in a few sentences, wrapping by word at column 90. Lorem ipsum dolor sit amet
+consectetur adipiscing elit. Laboris laboris in aute ea facere pariatur facilis in
+dignissimos molestias.
 
 --]]
 ```
@@ -391,21 +393,7 @@ unless the project's `.luaurc` promotes them to errors.
 ## Reference Docs
 
 The `docs/` directory contains reference data for Roblox and Luau development. Refer to
-these files when you need detailed information about specific APIs or assets...
-
-- `docs/roblox-fonts.md` → Complete list of all Roblox fonts with asset IDs.
-- `docs/roblox-open-cloud-places.md` → Creating, publishing, and testing Roblox places via
-  the API.
-- `docs/roblox-studio-mcp.md` → Working with a running Roblox Studio through the Studio
-  MCP (installing and restarting plugins, screenshots, and output logs). Read this before
-  verifying UI or plugin changes in Studio.
-- `docs/rojo-fork.md` → Our fork of Rojo and its `shared.Rojo` API for connecting and
-  syncing from `execute_luau`.
-- `docs/ui-labs-fork.md` → Our fork of UI Labs and its `shared.UILabs` API for mounting,
-  rendering, and screenshotting stories.
-
-Whenever you add, remove, rename, or change the purpose of a file in `docs/`, update this
-list so it always matches the actual files.
+these files when you need detailed information about specific APIs or assets.
 
 ## Lune Documentation
 
