@@ -8,6 +8,5 @@ agents read it whenever a task involves Luau code or a Roblox project.
 
 ## Reference Docs
 
-The `docs/` folder holds reference data for Roblox and Luau development. Whenever you add,
-remove, rename, or change the purpose of a file in `docs/`, update the Reference Docs
-section in `AGENTS.md` to match, since that list is how agents find these files.
+The `docs/` folder holds reference data for Roblox and Luau development. Agents browse
+this directory for detailed information about specific APIs or assets.
