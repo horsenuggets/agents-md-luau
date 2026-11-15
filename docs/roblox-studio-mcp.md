@@ -4,9 +4,6 @@ When working on Roblox projects, you can interact with a running Roblox Studio i
 via the RobloxStudio MCP server. This is useful for visually verifying UI changes,
 inspecting the game tree, reading scripts, and more.
 
-For programmatic Rojo plugin control, see [`rojo-fork.md`](rojo-fork.md), which covers
-connecting and syncing Rojo from `execute_luau`.
-
 ## Plugins Folder
 
 To install or update a Studio plugin, copy its built `.rbxm` file into the Studio plugins
@@ -27,8 +24,8 @@ cp MyPlugin.rbxm "<plugins-folder>/MyPlugin_$(openssl rand -hex 4).rbxm"
 
 Since the new file has a different name, Studio unloads the old plugin and loads the new
 one right away, with no need to sleep between the removal and the copy. This works for any
-plugin (Rojo, UI Labs, etc.). Always remove both the unsuffixed file and any suffixed
-copies first, so stale copies don't pile up and load side by side.
+plugin. Always remove both the unsuffixed file and any suffixed copies first, so stale
+copies don't pile up and load side by side.
 
 ## Capturing Screenshots
 
