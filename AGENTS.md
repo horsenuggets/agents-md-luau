@@ -262,7 +262,7 @@ MyModule/
 ### Using `@self`
 
 Only use the `@self` alias inside `init.luau` files. It refers to the directory containing
-the `init.luau`, allowing you to require sibling files...
+the `init.luau`, allowing you to require the module's children...
 
 ```luau
 -- Inside MyModule/init.luau
@@ -275,9 +275,19 @@ This is equivalent to `script.Helper` and `script.Utils` in Roblox. For files th
 
 ### Relative Requires From `init.luau`
 
-In an `init.luau` file, relative requires like `./foo` resolve relative to the parent
-directory (where the module would be imported from), not the directory containing the
-`init.luau`. Use `@self/foo` to require files in the same directory as the `init.luau`.
+An `init.luau` file stands in for its folder, so its relative requires resolve as if the
+folder itself were the file. `./foo` finds `foo` next to the folder, just as it would from
+a plain `MyModule.luau`, and `../foo` goes one level above that. This matches Roblox,
+where `./` from a script means `script.Parent`...
+
+```luau
+-- Inside MyModule/init.luau
+const Sibling = require("./Sibling") -- Sibling.luau, next to MyModule/
+const Helper = require("@self/Helper") -- MyModule/Helper.luau, a child
+```
+
+Use `@self/foo` for files inside the folder, and never `./foo`, which would look beside
+the folder instead.
 
 ## Configuration Files
 
