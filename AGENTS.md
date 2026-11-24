@@ -14,13 +14,15 @@ verify that all changes adhere to these rules.
 - Refer to "Luau code", "Luau files", "Luau scripts", "Luau modules", and the "Luau
   runtime".
 - The only exceptions are pre-existing `.lua` file extensions and tool names like
-  `stylua`.
+  `styluau`.
 
 ## Code Style
 
 ### Formatting
 
-- Run `stylua .` often to ensure that Luau code is formatted properly.
+- Run `styluau .` often to ensure that Luau code is formatted properly. Always use StyLuau
+  (`horsenuggets/styluau`), never upstream StyLua. Name config files `styluau.toml` and
+  ignore files `.styluauignore`, and use `-- [styluau] ignore` directives.
 - Prefer string interpolation using backticks over the `..` concatenation operator (e.g.,
   `` `Here is a string with an interpolated {value}.` ``).
 - Prefer double quotes over single quotes.
@@ -38,9 +40,9 @@ can still be changed. Bindings declared without a value (e.g., `local result`) a
 `local`, since `const` requires an initial value.
 
 `const` needs Luau 0.711 or newer, which means Lune `0.11.1-horse.16.0` or newer and
-StyLua `2.6.0` or newer. Forks of upstream projects keep `local` in upstream code, since
-rewriting it would make every upstream sync conflict, and only use `const` in files the
-fork added.
+StyLuau `2.6.0-horse.1.0` or newer. Forks of upstream projects keep `local` in upstream
+code, since rewriting it would make every upstream sync conflict, and only use `const` in
+files the fork added.
 
 ### Requires
 
@@ -292,7 +294,7 @@ the folder instead.
 ## Configuration Files
 
 - In `rokit.toml` and `wally.toml`, repository names using the `username/project` format
-  should always be lowercase (e.g., `johnnymorganz/stylua`, not `JohnnyMorganz/StyLua`).
+  should always be lowercase (e.g., `horsenuggets/styluau`, not `HorseNuggets/StyLuau`).
 - In `.luaurc`, do not add `@self` as an alias. It is already built in and refers to the
   current module.
 
